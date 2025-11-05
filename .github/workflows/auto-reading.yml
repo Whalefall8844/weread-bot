@@ -2,9 +2,9 @@ name: Auto Reading Bot
 
 on:
   # 定时触发 - 每天早上8点和晚上8点执行
-  # schedule:
-  #   - cron: '0 0 * * *'    # UTC 00:00 = 北京时间 08:00
-  #   - cron: '0 12 * * *'   # UTC 12:00 = 北京时间 20:00
+ schedule:
+ - cron: '0 0 * * *'    # UTC 00:00 = 北京时间 08:00
+  - cron: '0 12 * * *'   # UTC 12:00 = 北京时间 20:00
   
   # 拉取请求触发，用于测试阅读
   pull_request:
@@ -13,29 +13,6 @@ on:
       - 'weread-bot.py'
       - 'requirements.txt'
       - '.github/workflows/ci.yml'
-
-  # 手动触发
-  workflow_dispatch:
-    inputs:
-      target_duration:
-        description: '阅读时长（分钟，格式：10-20。建议：频繁运行时设置5-10分钟，GitHub免费版每月2000分钟额度）'
-        required: false
-        default: '1-2'
-        type: string
-      reading_mode:
-        description: '阅读模式'
-        required: false
-        default: 'smart_random'
-        type: choice
-        options:
-        - smart_random
-        - sequential
-        - pure_random
-      notify_enabled:
-        description: '启用通知'
-        required: false
-        default: true
-        type: boolean
 
 jobs:
   auto-reading:
@@ -146,7 +123,7 @@ jobs:
         echo "开始自动阅读任务..."
         echo "当前时间: $(date)"
         echo "运行参数:"
-        echo "- 阅读时长: ${{ github.event.inputs.target_duration || '45-90' }}"
+        echo "- 阅读时长: ${{ github.event.inputs.target_duration || '30-60' }}"
         echo "- 阅读模式: ${{ github.event.inputs.reading_mode || 'smart_random' }}"
         echo "- 启用通知: ${{ github.event.inputs.notify_enabled || true }}"
         echo "================================"
